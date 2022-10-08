@@ -1,25 +1,19 @@
 import { createApp } from 'vue';
-import { createRouter, createWebHistory } from 'vue-router';
 
+import router from './router';
+import store from './store/index'
 import App from './App.vue';
-import SetsList from "@/components/sets/SetsList";
-import SetCards from "@/components/sets/SetCards";
-import CardsList from "@/components/cards/CardsList";
-import UserLogin from "@/components/registration/UserLogin"
-
-const router = createRouter({
-    history: createWebHistory(),
-    routes: [
-        { path: '/sets', component: SetsList },
-        { path: '/sets/:setId', component: SetCards },
-        { path: '/cards', component: CardsList },
-        { path: '/login', component: UserLogin },
-    ],
-    linkActiveClass: 'active'
-});
+import BaseCard from './components/ui/BaseCard'
+import BaseButton from "@/components/ui/BaseButton";
+import BaseBadge from "@/components/ui/BaseBadge";
 
 const app = createApp(App);
 
 app.use(router);
+app.use(store);
+
+app.component('base-card', BaseCard )
+app.component('base-button', BaseButton )
+app.component('base-badge', BaseBadge )
 
 app.mount('#app');

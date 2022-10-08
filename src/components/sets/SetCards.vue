@@ -18,6 +18,7 @@ import CardItem from '../cards/CardItem.vue';
 
 export default {
   inject: ['sets', 'cards'],
+  props: ['setId'],
   components: {
     CardItem
   },
@@ -28,8 +29,7 @@ export default {
     };
   },
   methods: {
-    loadSetsMembers(route) {
-      const setId = route.params.setId;
+    loadSetsMembers(setId) {
       const selectedSet = this.sets.find(set => set.id === setId);
       console.log(selectedSet)
       const members = selectedSet.members;
@@ -44,11 +44,11 @@ export default {
     }
   },
   created() {
-    this.loadSetsMembers(this.$route);
+    this.loadSetsMembers(this.setId);
   },
   watch: {
-    $route(newRoute) {
-      this.loadSetsMembers(newRoute);
+    setId(newId) {
+      this.loadSetsMembers(newId);
     }
   }
 };

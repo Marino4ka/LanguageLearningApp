@@ -1,17 +1,20 @@
 <template>
   <li>
     <h3>{{ name }}</h3>
-    <div class="team-members">{{ memberCount }} Карточки</div>
-    <router-link :to="setMembersLink">Просмотреть карточки</router-link>
+    <div class="set-members">{{ memberCount }} Карточки</div>
+    <base-button mode="outline" link :to="setMembersLink">Просмотреть карточки</base-button>
   </li>
 </template>
 
 <script>
+import BaseButton from "@/components/ui/BaseButton";
 export default {
+  components: {BaseButton},
   props: ['id', 'name', 'memberCount'],
   computed: {
     setMembersLink() {
-      return '/sets/' + this.id
+      // return '/sets/' + this.id
+      return { name: 'set-members', params: { setId: this.id } }
     }
   }
 };
@@ -30,7 +33,7 @@ li h3 {
   font-size: 1.25rem;
 }
 
-li .team-members {
+li .set-members {
   margin: 0.5rem 0;
 }
 

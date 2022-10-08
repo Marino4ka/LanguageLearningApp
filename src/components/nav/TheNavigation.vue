@@ -3,10 +3,16 @@
     <nav>
       <ul>
         <li>
+          <router-link to="/card">Карточка</router-link>
+        </li>
+        <li>
           <router-link to="/sets">Сеты</router-link>
         </li>
         <li>
           <router-link to="/cards">Карточки</router-link>
+        </li>
+        <li>
+          <router-link to="/learn">Учить</router-link>
         </li>
         <li>
           <router-link to="/login">Авторизоваться</router-link>

@@ -1,4 +1,5 @@
 <template>
+  <router-view></router-view>
   <ul>
     <sets-item
       v-for="set in sets"
@@ -11,7 +12,7 @@
 </template>
 
 <script>
-import SetsItem from './SetsItem.vue';
+import SetsItem from '../components/sets/SetsItem.vue';
 
 export default {
   components: {
