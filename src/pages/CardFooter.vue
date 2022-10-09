@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="controls">
-      <base-button link to="#">Добавить новую карточку</base-button>
+      <base-button link to="/card">Добавить новую карточку</base-button>
     </div>
   </section>
 </template>

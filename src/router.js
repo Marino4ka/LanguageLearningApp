@@ -3,11 +3,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 import SetsList from "@/pages/SetsList";
 import SetCards from "@/components/sets/SetCards";
 import CardsList from "@/pages/CardsList";
-import UserLogin from "@/pages/UserAuth";
+import AddUser from "@/pages/AddUser";
 import NotFound from "@/pages/NotFound";
 import CardFooter from "@/pages/CardFooter";
 import SetFooter from "@/pages/SetsFooter";
-import UserFooter from "@/pages/AuthFooter";
 import CardEdit from "@/components/cards/CardEdit";
 import AddCard from "@/pages/AddCard";
 import LearnMode from "@/pages/LearnMode";
@@ -30,7 +29,7 @@ const router = createRouter({
         { path: '/cards', components: { default: CardsList, footer: CardFooter } },
         { path: '/cards/details/:id', component: CardDetails, props: true },
         { path: '/cards/details/:id/edit', component: CardEdit, props: true },
-        { path: '/login', components: { default: UserLogin, footer: UserFooter} },
+        { path: '/login', component: AddUser },
         { path: '/:notFound(.*)', component: NotFound }
     ],
     linkActiveClass: 'active',
