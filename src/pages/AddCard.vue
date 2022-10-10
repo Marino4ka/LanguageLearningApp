@@ -13,6 +13,7 @@ export default {
   methods: {
     saveData(data) {
       this.$store.dispatch('cards/addCard', data)
+      this.$store.dispatch('cards/addToSet', data)
       this.$router.replace('/cards')
     }
   }

@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import SetsList from "@/pages/SetsList";
-import SetCards from "@/components/sets/SetCards";
 import CardsList from "@/pages/CardsList";
 import AddUser from "@/pages/AddUser";
 import NotFound from "@/pages/NotFound";
@@ -17,15 +16,8 @@ const router = createRouter({
     routes: [
         { path: '/', redirect: '/sets' },
         { path: '/card', component: AddCard },
-        { path: '/learn', component: LearnMode },
-        {
-            name: 'sets',
-            path: '/sets',
-            components: { default: SetsList, footer: SetFooter },
-            children: [
-                { name: 'set-members', path: ':setId', component: SetCards, props: true }
-            ]
-        },
+        { path: '/sets', components: { default: SetsList, footer: SetFooter } },
+        { path: '/sets/learn/:id', component: LearnMode, props: true },
         { path: '/cards', components: { default: CardsList, footer: CardFooter } },
         { path: '/cards/details/:id', component: CardDetails, props: true },
         { path: '/cards/details/:id/edit', component: CardEdit, props: true },

@@ -1,52 +1,34 @@
 <template>
   <li>
-    <h3>{{ name }}</h3>
-    <div class="set-members">{{ memberCount }} Карточки</div>
-    <base-button mode="outline" link :to="setMembersLink">Просмотреть карточки</base-button>
+    <div>{{ name }}</div>
+    <div>{{ id }}</div>
+    <div>{{ countMembers }}</div>
+    <base-button mode="outline" link :to="learnSetLink">Учить{{ id }}</base-button>
   </li>
 </template>
 
 <script>
-import BaseButton from "@/components/ui/BaseButton";
-export default {
-  components: {BaseButton},
-  props: ['id', 'name', 'memberCount'],
-  computed: {
-    setMembersLink() {
-      // return '/sets/' + this.id
-      return { name: 'set-members', params: { setId: this.id } }
+  export default {
+    props: ['name', 'members', 'id'],
+    computed: {
+      countMembers() {
+        return this.members.length
+      },
+      learnSetLink() {
+        return this.$route.path + '/' + 'learn' + '/' + this.id
+      }
     }
   }
-};
 </script>
 
 <style scoped>
 li {
   margin: 1rem 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  border-radius: 12px;
+  border: 1px solid #ccc;
   padding: 1rem;
 }
 
-li h3 {
-  margin: 0.5rem 0;
-  font-size: 1.25rem;
-}
-
-li .set-members {
-  margin: 0.5rem 0;
-}
-
-a {
-  text-decoration: none;
-  color: white;
-  display: inline-block;
-  padding: 0.5rem 1.5rem;
-  background-color: #11005c;
-}
-
-a:hover,
-a:active {
-  background-color: #220a8d;
+p {
+  margin: 0.5rem 0 0 0;
 }
 </style>

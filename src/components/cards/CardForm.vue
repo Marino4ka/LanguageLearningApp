@@ -11,15 +11,15 @@
     <div class="form-control">
       <h3>Сет</h3>
       <div>
-        <input type="checkbox" id="Vegetables" v-model="sets" value="Vegetables">
+        <input type="checkbox" id="t1" v-model="sets" value="t1">
         <label>Vegetables</label>
       </div>
       <div>
-        <input type="checkbox" id="Colors" v-model="sets" value="Colors">
+        <input type="checkbox" id="t2" v-model="sets" value="t2">
         <label>Colors</label>
       </div>
       <div>
-        <input type="checkbox" id="Animals" v-model="sets" value="Animals">
+        <input type="checkbox" id="t3" v-model="sets" value="t3">
         <label>Animals</label>
       </div>
       <base-button>Сохранить</base-button>
@@ -37,7 +37,7 @@ export default {
     return {
       ru: '',
       eng: '',
-      sets: []
+      sets: [],
     }
   },
   methods: {
@@ -46,7 +46,8 @@ export default {
         ru: this.ru,
         eng: this.eng,
         status: 'learn',
-        sets: this.sets
+        sets: this.sets,
+        id: new Date().toISOString()
       }
       this.$emit('save-data', formData)
     }

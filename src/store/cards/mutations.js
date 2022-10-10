@@ -5,5 +5,7 @@ export default {
     addUser(state, payload) {
         state.newUser = payload
         console.log(state.newUser)
-    }
+    },
+    // addToSet(state, payload) {
+    // }
 }

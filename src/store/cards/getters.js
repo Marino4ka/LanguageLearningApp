@@ -1,6 +1,6 @@
 export default {
     sets(state) {
-       return state.sets
+       return state.user.sets
     },
     cards(state) {
         return state.user.cards
