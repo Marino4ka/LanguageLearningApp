@@ -1,32 +1,69 @@
 export default {
-    addCard(context, payload) {
-        // id: context.rootGetters.userId,
-        const cardData = {
-            userId: context.rootGetters.userId,
-            id: payload.id,
+    async addCard(context, payload) {
+        const userId = context.rootGetters.userId
+        const CardData = {
             ru: payload.ru,
             eng: payload.eng,
             status: payload.status,
             sets: payload.sets
-        };
-        context.commit('addCard', cardData);
+        }
+
+        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/cards.json`, {
+            method: 'POST',
+            body: JSON.stringify(CardData)
+        });
+
+        const responseData = await response.json()
+        const id = responseData.name
+
+        // if (!response.ok) {
+        //    console.log(responseData.name)
+        // }
+
+        context.commit('addCard', {
+            ...CardData,
+            id: id
+        })
+    },
+    async addSet(context, payload) {
+        const userId = context.rootGetters.userId
+        const setData = {
+            name: payload.name,
+            members: payload.members
+        }
+
+        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/sets.json`, {
+            method: 'POST',
+            body: JSON.stringify(setData)
+        });
+
+        const responseData = await response.json()
+        const id = responseData.name
+
+        // if (!response.ok) {
+        //    console.log(responseData.name)
+        // }
+
+        context.commit('addSet', {
+            ...setData,
+            id: id
+        })
     },
     addToSet(context, payload) {
         const cardId = payload.id
-        console.log(cardId)
         const setsId = payload.sets
-        console.log(setsId)
         const sets = context.getters.sets
-        console.log(sets)
-        for(const elem in setsId) {
-            const setId = setsId[elem]
-            console.log(setId)
-            if(setsId[elem] === sets[elem].id) {
-                sets[elem].members.push(cardId)
-                console.log(cardId + ' pushed to ' + setsId[elem])
+        const setData = []
+        setData.push(sets)
+        console.log(setData)
+        setsId.forEach((elem, index) => {
+            for(index=0; index<sets.length; ++index){
+                if(elem === sets[index].id) {
+                    sets[index].members.push(cardId)
+                }
             }
-        }
-        console.log(sets)
+        })
+        context.commit('addToSet', setData);
     },
     addUser(context, data) {
         const userData = {
@@ -36,5 +73,53 @@ export default {
             password: data.password
         }
         context.commit('addUser', userData)
+    },
+    async loadSets(context) {
+        const userId = context.rootGetters.userId
+        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/sets.json`)
+        const responseData = await response.json();
+
+        // if(!response.ok) {
+        //
+        // }
+
+        const sets = [];
+
+        for (const key in responseData) {
+            const set = {
+                name: responseData[key].name,
+                members: responseData[key].members,
+                id: key
+            }
+            sets.push(set)
+        }
+
+        context.commit('setSets', sets)
+
+    },
+    async loadCards(context) {
+        const userId = context.rootGetters.userId
+        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/cards.json`)
+        const responseData = await response.json();
+
+        // if(!response.ok) {
+        //
+        // }
+
+        const cards = [];
+
+        for (const key in responseData) {
+            const card = {
+                ru: responseData[key].ru,
+                eng: responseData[key].eng,
+                status: responseData[key].status,
+                sets: responseData[key].sets,
+                id: key
+            }
+            cards.push(card)
+        }
+
+        context.commit('setCards', cards)
+
     }
 }

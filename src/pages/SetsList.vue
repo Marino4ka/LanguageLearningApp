@@ -33,6 +33,14 @@ export default {
     hasSets() {
       return this.$store.getters['cards/hasSets']
     }
+  },
+  created() {
+    this.loadSets()
+  },
+  methods: {
+    loadSets() {
+      this.$store.dispatch('cards/loadSets')
+    }
   }
 }
 </script>

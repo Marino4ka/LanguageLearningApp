@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="controls">
-      <base-button link to="#">Добавить новый Сет</base-button>
+      <base-button link to="/sets/new">Добавить новый Сет</base-button>
     </div>
   </section>
 </template>

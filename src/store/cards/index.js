@@ -12,8 +12,8 @@ export default {
                 email: '',
                 password: '',
             },
-            user: {
-                userId: '213',
+            users: {
+                id: 'c1',
                 sets: [
                     { id: 't1', name: 'Vegetables', members: ['u1', 'u2'] },
                     { id: 't2', name: 'Colors', members: ['u1', 'u2', 'u3'] },

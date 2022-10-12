@@ -54,13 +54,20 @@ export default {
       return this.$store.getters['cards/hasCards']
     }
   },
+  created() {
+    this.loadCards()
+  },
   methods: {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
+    },
+    loadCards() {
+      this.$store.dispatch('cards/loadCards')
     }
   }
 };
 </script>
+
 
 <style scoped>
 ul {

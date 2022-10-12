@@ -84,7 +84,7 @@ export default {
         password: this.password.val
       }
       this.$store.dispatch('cards/addUser', formData)
-      this.$router.replace('/cards')
+      this.$router.replace('/sets')
     }
   }
 }

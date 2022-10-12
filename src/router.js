@@ -10,6 +10,7 @@ import CardEdit from "@/components/cards/CardEdit";
 import AddCard from "@/pages/AddCard";
 import LearnMode from "@/pages/LearnMode";
 import CardDetails from "@/pages/CardDetails";
+import SetForm from "@/components/cards/SetForm";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -17,6 +18,7 @@ const router = createRouter({
         { path: '/', redirect: '/sets' },
         { path: '/card', component: AddCard },
         { path: '/sets', components: { default: SetsList, footer: SetFooter } },
+        { path: '/sets/new', component: SetForm },
         { path: '/sets/learn/:id', component: LearnMode, props: true },
         { path: '/cards', components: { default: CardsList, footer: CardFooter } },
         { path: '/cards/details/:id', component: CardDetails, props: true },

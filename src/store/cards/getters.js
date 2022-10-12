@@ -1,18 +1,18 @@
 export default {
     sets(state) {
-       return state.user.sets
+       return state.users.sets
     },
     cards(state) {
-        return state.user.cards
+        return state.users.cards
     },
     user(state) {
         return state.newUser
     },
     hasCards (state) {
-        return state.user.cards && state.user.cards.length > 0
+        return state.users.cards && state.users.cards.length > 0
     },
     hasSets (state) {
-        return state.user.sets && state.user.sets.length > 0
+        return state.users.sets && state.users.sets.length > 0
     },
     isUser(_, getters, _2, rootGetters) {
         const user = getters.user
