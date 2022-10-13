@@ -9,18 +9,17 @@
       <textarea id="eng" v-model.trim="eng" rows="5"></textarea>
     </div>
     <div class="form-control">
-      <h3>Сет</h3>
+      <h3>Выберети сет</h3>
       <div>
-        <input type="checkbox" id="t1" v-model="sets" value="t1">
-        <label>Vegetables</label>
-      </div>
-      <div>
-        <input type="checkbox" id="t2" v-model="sets" value="t2">
-        <label>Colors</label>
-      </div>
-      <div>
-        <input type="checkbox" id="t3" v-model="sets" value="t3">
-        <label>Animals</label>
+        <input v-for="set in userSets"
+               type="checkbox"
+               :id="set.id"
+               :key="set.id"
+               v-model="selectedSets"
+               :value="set.id"/>
+        <label v-for="set in userSets"
+               :key="set.id"
+               >{{ set.name }}</label>
       </div>
       <base-button>Сохранить</base-button>
     </div>
@@ -37,7 +36,13 @@ export default {
     return {
       ru: '',
       eng: '',
-      sets: [],
+      selectedSets: [],
+      setName: ''
+    }
+  },
+  computed: {
+    userSets() {
+      return this.$store.getters['cards/sets']
     }
   },
   methods: {
@@ -46,10 +51,14 @@ export default {
         ru: this.ru,
         eng: this.eng,
         status: 'learn',
-        sets: this.sets,
+        sets: this.selectedSets,
         id: new Date().toISOString()
       }
       this.$emit('save-data', formData)
+    },
+    loadSets() {
+      this.$store.dispatch('cards/loadSets')
+      // console.log()
     }
   }
 }
@@ -72,7 +81,6 @@ input[type='checkbox'] + label {
   margin: 0 0 0 0.5rem;
 }
 
-input,
 textarea {
   display: block;
   width: 100%;

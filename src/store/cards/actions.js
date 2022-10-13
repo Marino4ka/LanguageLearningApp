@@ -20,6 +20,8 @@ export default {
         //    console.log(responseData.name)
         // }
 
+        await context.dispatch('addToSet', { cardData: payload, id: id, userId: userId })
+
         context.commit('addCard', {
             ...CardData,
             id: id
@@ -28,8 +30,7 @@ export default {
     async addSet(context, payload) {
         const userId = context.rootGetters.userId
         const setData = {
-            name: payload.name,
-            members: payload.members
+            name: payload.name
         }
 
         const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/sets.json`, {
@@ -49,9 +50,12 @@ export default {
             id: id
         })
     },
-    addToSet(context, payload) {
+    async addToSet(context, payload) {
         const cardId = payload.id
-        const setsId = payload.sets
+        const setsId = payload.cardData.sets
+        const userId = payload.userId
+        console.log('addToSet' + cardId)
+        console.log('addToSet' + setsId)
         const sets = context.getters.sets
         const setData = []
         setData.push(sets)
@@ -61,8 +65,17 @@ export default {
                 if(elem === sets[index].id) {
                     sets[index].members.push(cardId)
                 }
+                else return
             }
         })
+        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/sets.json`, {
+            method: 'POST',
+            body: JSON.stringify(setData)
+        });
+
+        const responseData = await response.json()
+        console.log(responseData)
+
         context.commit('addToSet', setData);
     },
     addUser(context, data) {
@@ -84,11 +97,11 @@ export default {
         // }
 
         const sets = [];
+        console.log(sets)
 
         for (const key in responseData) {
             const set = {
                 name: responseData[key].name,
-                members: responseData[key].members,
                 id: key
             }
             sets.push(set)

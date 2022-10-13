@@ -29,10 +29,10 @@ export default{
   // props: ['id'],
   data() {
     return {
-      members: [],
-      setName: '',
+      // members: [],
+      // setName: '',
       selectedSet: null,
-      cards: [],
+      // cards: [],
       question: 'Oops, an error ocurred :/',
       btnData: [
         {correct: true, answer: 0},
@@ -43,17 +43,17 @@ export default{
     };
   },
   methods: {
-      loadSetsMembers() {
-        const selectedSet = this.selectedSet;
-        const members = selectedSet.members;
-        const selectedMembers = [];
-        for (const member of members) {
-          const selectedCard = this.cards.find(card => card.id === member)
-          selectedMembers.push(selectedCard)
-        }
-        this.members = selectedMembers
-        console.log(members + '!!!!!!!!')
-      },
+      // loadSetsMembers() {
+      //   const selectedSet = this.selectedSet;
+      //   const members = selectedSet.members;
+      //   const selectedMembers = [];
+      //   for (const member of members) {
+      //     const selectedCard = this.cards.find(card => card.id === member)
+      //     selectedMembers.push(selectedCard)
+      //   }
+      //   this.members = selectedMembers
+      //   console.log(members + '!!!!!!!!')
+      // },
     generateQuestion() {
       const firstNumber = this.generateRandomNumber(1, 100);
       const secondNumber = this.generateRandomNumber(1, 100);
@@ -102,9 +102,9 @@ export default{
   },
   created() {
     this.generateQuestion();
-    this.selectedSet = this.$store.getters['cards/sets'].find(set => set.id === this.$route.params.id)
-    this.cards = this.$store.getters['cards/cards']
-    this.loadSetsMembers()
+    // this.selectedSet = this.$store.getters['cards/sets'].find(set => set.id === this.$route.params.id)
+    // this.cards = this.$store.getters['cards/cards']
+    // this.loadSetsMembers()
   }
 }
 </script>

@@ -2,7 +2,6 @@
   <li>
     <div>{{ name }}</div>
     <div>{{ id }}</div>
-    <div>{{ countMembers }}</div>
     <base-button mode="outline" link :to="learnSetLink">Учить{{ id }}</base-button>
   </li>
 </template>
@@ -11,9 +10,6 @@
   export default {
     props: ['name', 'members', 'id'],
     computed: {
-      countMembers() {
-        return this.members.length
-      },
       learnSetLink() {
         return this.$route.path + '/' + 'learn' + '/' + this.id
       }

@@ -19,8 +19,7 @@ export default {
   emits: ['save-data'],
   data() {
     return {
-      name: '',
-      members: ['1']
+      name: ''
     }
   },
   methods: {
@@ -31,7 +30,7 @@ export default {
 
       }
      this.$store.dispatch('cards/addSet', SetData)
-     this.$router.replace('/sets')
+     this.$router.replace('/cards')
     }
   }
 }

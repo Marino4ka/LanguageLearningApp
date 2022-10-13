@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-          <h1 class="text-center">Экзамен {{ name }}</h1>
+          <h1 class="text-center">Экзамен{{ cards }}</h1>
         </div>
       </div>
       <hr>
@@ -15,6 +15,7 @@
         </div>
       </div>
     </div>
+    <base-button @click="loadSelectedSet">Начать!</base-button>
   </base-card>
 </template>
 
@@ -22,21 +23,44 @@
 import Question from '@/components/exam/Question';
 import Answer from '@/components/exam/Answer';
 import BaseCard from "@/components/ui/BaseCard";
+import BaseButton from "@/components/ui/BaseButton";
 
 export default {
   props:['id'],
   data() {
     return {
-      selectedSet: null,
-      mode: 'app-question'
+      // selectedSet: null,
+      mode: 'app-question',
+      setId: this.id
     }
   },
   computed: {
-    name () {
-      return this.selectedSet.name
-    }
+    cards () {
+      return this.$store.getters['cards/cards']
+    },
+    sets() {
+      return this.$store.getters['cards/sets']
+    },
   },
   methods: {
+    loadCards() {
+      this.$store.dispatch('cards/loadCards')
+    },
+    loadSets() {
+      this.$store.dispatch('cards/loadSets')
+    },
+    loadSelectedSet() {
+      const  cards = this.cards
+      const id = this.id
+      const cardsData = []
+      cards.forEach((elem, index) => {
+        for(index=0; index<cards.length; ++index){
+          const found = elem.sets.find(element => element === id)
+          cardsData.push(found)
+        }
+      })
+      console.log("SelectedCards" + cardsData)
+    },
     answered(isCorrect) {
       if (isCorrect) {
         this.mode = 'app-answer';
@@ -47,12 +71,14 @@ export default {
     }
   },
   components: {
+    BaseButton,
     BaseCard,
     appQuestion: Question,
     appAnswer: Answer
   },
   created() {
-    this.selectedSet = this.$store.getters['cards/sets'].find(set => set.id === this.id)
+    this.loadCards()
+    this.loadSets()
   }
 }
 </script>
