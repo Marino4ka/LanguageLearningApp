@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-          <h1 class="text-center">Экзамен{{ cards }}</h1>
+          <h1 class="text-center">Экзамен{{ selectedSet[0].id }}</h1>
         </div>
       </div>
       <hr>
@@ -15,7 +15,6 @@
         </div>
       </div>
     </div>
-    <base-button @click="loadSelectedSet">Начать!</base-button>
   </base-card>
 </template>
 
@@ -31,7 +30,6 @@ export default {
     return {
       // selectedSet: null,
       mode: 'app-question',
-      setId: this.id
     }
   },
   computed: {
@@ -41,6 +39,9 @@ export default {
     sets() {
       return this.$store.getters['cards/sets']
     },
+    selectedSet() {
+      return this.$store.getters['cards/selectedSet']
+    }
   },
   methods: {
     loadCards() {
@@ -48,19 +49,24 @@ export default {
     },
     loadSets() {
       this.$store.dispatch('cards/loadSets')
+      this.loadSelectedSet()
     },
     loadSelectedSet() {
-      const  cards = this.cards
-      const id = this.id
-      const cardsData = []
-      cards.forEach((elem, index) => {
-        for(index=0; index<cards.length; ++index){
-          const found = elem.sets.find(element => element === id)
-          cardsData.push(found)
-        }
-      })
-      console.log("SelectedCards" + cardsData)
+      this.$store.dispatch('cards/loadSelectedSet', { id: this.$route.params.id, cards: this.cards })
     },
+    // loadSelectedSet() {
+    //   const  cards = this.cards
+    //   const id = this.id
+    //   let cardsData = []
+    //   cards.forEach((cardId, index) => {
+    //     for(index=0; index<cards.length; ++index){
+    //       cardId.sets.find(element => element === id)
+    //       cardsData.push(cardId)
+    //       return cardsData
+    //     }
+    //   })
+    //   console.log("SelectedCards" + cardsData)
+    // },
     answered(isCorrect) {
       if (isCorrect) {
         this.mode = 'app-answer';

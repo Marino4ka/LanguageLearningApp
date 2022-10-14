@@ -17,5 +17,8 @@ export default {
     },
     setCards(state, payload) {
         state.users.cards = payload
-    }
+    },
+    setSelectedSet(state, payload) {
+        state.users.selectedSet = payload
+    },
 }

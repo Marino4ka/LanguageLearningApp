@@ -5,6 +5,9 @@ export default {
     cards(state) {
         return state.users.cards
     },
+    selectedSet(state) {
+        return state.users.selectedSet
+    },
     user(state) {
         return state.newUser
     },

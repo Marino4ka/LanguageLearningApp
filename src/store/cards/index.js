@@ -15,7 +15,8 @@ export default {
             users: {
                 id: 'c1',
                 sets: [],
-                cards: []
+                cards: [],
+                selectedSet: []
             },
         }
     },

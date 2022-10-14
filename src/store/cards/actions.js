@@ -134,5 +134,21 @@ export default {
 
         context.commit('setCards', cards)
 
-    }
+    },
+    loadSelectedSet(context, payload) {
+        const  cards = payload.cards
+        const id = payload.id
+        let cardsData = []
+        cards.forEach((cardId, index) => {
+            for(index=0; index<cards.length; ++index){
+                cardId.sets.find(element => element === id)
+                cardsData.push(cardId)
+                return cardsData
+            }
+        })
+        console.log('id:' + id)
+        console.log('cards:' + cards)
+
+        context.commit('setSelectedSet', cardsData)
+    },
 }
