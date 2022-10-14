@@ -3,14 +3,14 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-          <h1 class="text-center">Экзамен{{ selectedSet[0].id }}</h1>
+          <h1 class="text-center">Выбирите правильный ответ!</h1>
         </div>
       </div>
       <hr>
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
           <transition name="flip" mode="out-in">
-            <component :is="mode" @answered="answered($event)" @confirmed="mode = 'app-question'"></component>
+            <component :is="mode" @answered="answered($event)" @confirmed="mode = 'app-question'" :selectedSet="selectedSet"></component>
           </transition>
         </div>
       </div>
@@ -28,7 +28,6 @@ export default {
   props:['id'],
   data() {
     return {
-      // selectedSet: null,
       mode: 'app-question',
     }
   },
@@ -40,7 +39,12 @@ export default {
       return this.$store.getters['cards/sets']
     },
     selectedSet() {
-      return this.$store.getters['cards/selectedSet']
+      const cards = []
+      const set = this.$store.getters['cards/selectedSet']
+      for(let index=0; index<set.length; ++index) {
+        cards.push(set[index].id)
+      }
+      return { set, cards }
     }
   },
   methods: {

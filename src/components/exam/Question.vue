@@ -1,7 +1,8 @@
 <template>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title text-center">{{ selectedSet }}</h3>
+      <h3 class="panel-title text-center">{{ question }}{{ set }}</h3>
+      <h3 class="panel-title text-center">{{ question }}{{ cardIds }}</h3>
     </div>
     <div class="panel-body">
       <div class="col-xs-12 col-sm-6 text-center">
@@ -26,13 +27,11 @@
 const MODE_ADDITION = 1;
 const MODE_SUBTRACTION = 2;
 export default{
-  // props: ['id'],
+  props: ['selectedSet'],
   data() {
     return {
-      // members: [],
-      // setName: '',
-      selectedSet: null,
-      // cards: [],
+      set: this.selectedSet.set,
+      cardIds: this.selectedSet.cards,
       question: 'Oops, an error ocurred :/',
       btnData: [
         {correct: true, answer: 0},
@@ -42,22 +41,17 @@ export default{
       ]
     };
   },
+  // computed: {
+  //   set() {
+  //     return this.$store.getters['cards/selectedSet']
+  //   }
+  // },
   methods: {
-      // loadSetsMembers() {
-      //   const selectedSet = this.selectedSet;
-      //   const members = selectedSet.members;
-      //   const selectedMembers = [];
-      //   for (const member of members) {
-      //     const selectedCard = this.cards.find(card => card.id === member)
-      //     selectedMembers.push(selectedCard)
-      //   }
-      //   this.members = selectedMembers
-      //   console.log(members + '!!!!!!!!')
-      // },
     generateQuestion() {
       const firstNumber = this.generateRandomNumber(1, 100);
       const secondNumber = this.generateRandomNumber(1, 100);
       const modeNumber = this.generateRandomNumber(1, 2);
+
 
       let correctAnswer = 0;
 
@@ -102,9 +96,6 @@ export default{
   },
   created() {
     this.generateQuestion();
-    // this.selectedSet = this.$store.getters['cards/sets'].find(set => set.id === this.$route.params.id)
-    // this.cards = this.$store.getters['cards/cards']
-    // this.loadSetsMembers()
   }
 }
 </script>
