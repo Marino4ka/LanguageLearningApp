@@ -2,16 +2,21 @@
   <li>
     <div>{{ name }}</div>
     <div>{{ id }}</div>
-    <base-button mode="outline" link :to="learnSetLink">Учить{{ id }}</base-button>
+    <base-button mode="outline" link :to="learnSetLink" :id="setId">Учить{{ id }}</base-button>
   </li>
 </template>
 
 <script>
   export default {
     props: ['name', 'members', 'id'],
+    data () {
+      return {
+        setId: this.id
+      }
+    },
     computed: {
       learnSetLink() {
-        return this.$route.path + '/' + 'learn' + '/' + this.id
+        return this.$route.path + '/' + 'learn' + '/' + this.setId
       }
     }
   }

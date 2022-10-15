@@ -16,7 +16,8 @@ export default {
                 id: 'c1',
                 sets: [],
                 cards: [],
-                selectedSet: []
+                selectedSet: [],
+                examCards: []
             },
         }
     },

@@ -8,6 +8,9 @@ export default {
     selectedSet(state) {
         return state.users.selectedSet
     },
+    examCards(state) {
+        return state.users.examCards
+    },
     user(state) {
         return state.newUser
     },

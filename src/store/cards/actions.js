@@ -151,4 +151,14 @@ export default {
 
         context.commit('setSelectedSet', cardsData)
     },
+    shuffleCards(context, payload) {
+        const set = payload.set
+        for (let i = set.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [set[i], set[j]] = [set[j], set[i]];
+        }
+        console.log("shuffled" + set[0])
+
+        context.commit('shuffleCards', set)
+    }
 }

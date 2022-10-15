@@ -1,8 +1,8 @@
 <template>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title text-center">{{ question }}{{ set }}</h3>
-      <h3 class="panel-title text-center">{{ question }}{{ cardIds }}</h3>
+      <h3 class="panel-title text-center">{{ question }}{{ examSet }}</h3>
+      <h3 class="panel-title text-center">{{ question }}</h3>
     </div>
     <div class="panel-body">
       <div class="col-xs-12 col-sm-6 text-center">
@@ -24,14 +24,14 @@
 
 </style>
 <script>
-const MODE_ADDITION = 1;
-const MODE_SUBTRACTION = 2;
+const MODE_RU = 1;
+const MODE_ENG = 2;
 export default{
-  props: ['selectedSet'],
+  props: ['cardIds', 'set'],
   data() {
     return {
-      set: this.selectedSet.set,
-      cardIds: this.selectedSet.cards,
+      examCardsIds: this.cardIds,
+      examSet: this.set,
       question: 'Oops, an error ocurred :/',
       btnData: [
         {correct: true, answer: 0},
@@ -41,28 +41,25 @@ export default{
       ]
     };
   },
-  // computed: {
-  //   set() {
-  //     return this.$store.getters['cards/selectedSet']
-  //   }
-  // },
   methods: {
     generateQuestion() {
+      const card = this.examSet.pop()
+      console.log('карта'  + card)
       const firstNumber = this.generateRandomNumber(1, 100);
       const secondNumber = this.generateRandomNumber(1, 100);
       const modeNumber = this.generateRandomNumber(1, 2);
 
-
       let correctAnswer = 0;
 
       switch (modeNumber) {
-        case MODE_ADDITION:
+        case MODE_RU:
           correctAnswer = firstNumber + secondNumber;
-          this.question = `What's ${firstNumber} + ${secondNumber}?`;
+
+          this.question = `What's ${card.ru}?`;
           break;
-        case MODE_SUBTRACTION:
+        case MODE_ENG:
           correctAnswer = firstNumber - secondNumber;
-          this.question = `What's ${firstNumber} - ${secondNumber}?`;
+          this.question = `What's ${card.eng}?`;
           break;
         default:
           correctAnswer = 0;

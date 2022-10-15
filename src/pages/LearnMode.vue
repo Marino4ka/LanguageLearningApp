@@ -10,7 +10,7 @@
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
           <transition name="flip" mode="out-in">
-            <component :is="mode" @answered="answered($event)" @confirmed="mode = 'app-question'" :selectedSet="selectedSet"></component>
+            <component :is="mode" @answered="answered($event)" @confirmed="mode = 'app-question'" :cardIds="selectedSet.cards" :set="selectedSet.set"></component>
           </transition>
         </div>
       </div>
@@ -29,48 +29,26 @@ export default {
   data() {
     return {
       mode: 'app-question',
+      setId: this.id,
+      cards: this.$store.getters['cards/cards'],
+      sets: this.$store.getters['cards/sets']
     }
   },
   computed: {
-    cards () {
-      return this.$store.getters['cards/cards']
-    },
-    sets() {
-      return this.$store.getters['cards/sets']
-    },
     selectedSet() {
       const cards = []
       const set = this.$store.getters['cards/selectedSet']
       for(let index=0; index<set.length; ++index) {
         cards.push(set[index].id)
       }
+      this.$store.dispatch('cards/shuffleCards', {set: set})
       return { set, cards }
     }
   },
   methods: {
-    loadCards() {
-      this.$store.dispatch('cards/loadCards')
-    },
-    loadSets() {
-      this.$store.dispatch('cards/loadSets')
-      this.loadSelectedSet()
-    },
     loadSelectedSet() {
-      this.$store.dispatch('cards/loadSelectedSet', { id: this.$route.params.id, cards: this.cards })
+      this.$store.dispatch('cards/loadSelectedSet', { cards: this.cards, id: this.setId })
     },
-    // loadSelectedSet() {
-    //   const  cards = this.cards
-    //   const id = this.id
-    //   let cardsData = []
-    //   cards.forEach((cardId, index) => {
-    //     for(index=0; index<cards.length; ++index){
-    //       cardId.sets.find(element => element === id)
-    //       cardsData.push(cardId)
-    //       return cardsData
-    //     }
-    //   })
-    //   console.log("SelectedCards" + cardsData)
-    // },
     answered(isCorrect) {
       if (isCorrect) {
         this.mode = 'app-answer';
@@ -87,8 +65,7 @@ export default {
     appAnswer: Answer
   },
   created() {
-    this.loadCards()
-    this.loadSets()
+    this.loadSelectedSet()
   }
 }
 </script>

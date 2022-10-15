@@ -21,4 +21,7 @@ export default {
     setSelectedSet(state, payload) {
         state.users.selectedSet = payload
     },
+    shuffleCards(state, payload) {
+        state.users.examCards = payload
+    }
 }
