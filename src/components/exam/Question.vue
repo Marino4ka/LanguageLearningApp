@@ -44,21 +44,21 @@ export default{
   methods: {
     generateQuestion() {
       const card = this.examSet.pop()
-      console.log('карта'  + card)
-      const firstNumber = this.generateRandomNumber(1, 100);
-      const secondNumber = this.generateRandomNumber(1, 100);
+      console.log('карта'  + card.id)
+      // const firstNumber = this.generateRandomNumber(1, 100);
+      // const secondNumber = this.generateRandomNumber(1, 100);
       const modeNumber = this.generateRandomNumber(1, 2);
-
-      let correctAnswer = 0;
+      const variant = ['вишня', 'слон', 'гвоздь', 'стул']
+      let correctAnswer = '';
 
       switch (modeNumber) {
         case MODE_RU:
-          correctAnswer = firstNumber + secondNumber;
+          correctAnswer = card.eng;
 
           this.question = `What's ${card.ru}?`;
           break;
         case MODE_ENG:
-          correctAnswer = firstNumber - secondNumber;
+          correctAnswer = card.ru;
           this.question = `What's ${card.eng}?`;
           break;
         default:
@@ -66,13 +66,13 @@ export default{
           this.question = 'Oops, an Error occurred :/';
       }
 
-      this.btnData[0].answer = this.generateRandomNumber(correctAnswer - 10, correctAnswer + 10, correctAnswer);
+      this.btnData[0].answer = this.generateRandomAnswer(variant);
       this.btnData[0].correct = false;
-      this.btnData[1].answer = this.generateRandomNumber(correctAnswer - 10, correctAnswer + 10, correctAnswer);
+      this.btnData[1].answer = this.generateRandomAnswer(variant);
       this.btnData[1].correct = false;
-      this.btnData[2].answer = this.generateRandomNumber(correctAnswer - 10, correctAnswer + 10, correctAnswer);
+      this.btnData[2].answer = this.generateRandomAnswer(variant);
       this.btnData[2].correct = false;
-      this.btnData[3].answer = this.generateRandomNumber(correctAnswer - 10, correctAnswer + 10, correctAnswer);
+      this.btnData[3].answer = this.generateRandomAnswer(variant);
       this.btnData[3].correct = false;
 
       const correctButton = this.generateRandomNumber(0, 3);
@@ -86,6 +86,13 @@ export default{
         return this.generateRandomNumber(min, max, except);
       }
       return rndNumber;
+    },
+    generateRandomAnswer(options) {
+      let optionAnswer = ''
+      const index = this.generateRandomNumber(1, options.length - 1)
+      optionAnswer = options[index]
+      console.log(optionAnswer)
+      return optionAnswer
     },
     onAnswer(isCorrect) {
       this.$emit('answered', isCorrect);
