@@ -6,12 +6,6 @@ export default {
     namespaced: true,
     state() {
         return {
-            newUser: {
-                id: '',
-                login: '',
-                email: '',
-                password: '',
-            },
             users: {
                 id: 'c1',
                 sets: [],

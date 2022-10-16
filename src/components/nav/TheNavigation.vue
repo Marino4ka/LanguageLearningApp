@@ -15,7 +15,7 @@
           <router-link to="/learn">Учить</router-link>
         </li>
         <li>
-          <router-link to="/login">Авторизоваться</router-link>
+          <router-link to="/auth">Авторизоваться</router-link>
         </li>
       </ul>
     </nav>

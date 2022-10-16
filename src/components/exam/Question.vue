@@ -30,6 +30,7 @@ export default{
   props: ['cardIds', 'set'],
   data() {
     return {
+      rightAnswersCounter: 0,
       examCardsIds: this.cardIds,
       examSet: this.set,
       question: 'Oops, an error ocurred :/',
@@ -42,19 +43,44 @@ export default{
     };
   },
   methods: {
+    loadRuAnswersOptions() {
+      const additionalRuOpt = ['самовар', 'вокзал', 'мигать']
+      let answerRu = []
+      const cards = this.$store.getters['cards/cards']
+      for(let index=0; index<cards.length; ++index){
+        answerRu.push(cards[index].ru)
+      }
+      if(answerRu.length < 5) {
+        answerRu = [answerRu, ...additionalRuOpt]
+      }
+      console.log("QWERTY" + answerRu)
+      return answerRu
+    },
+    loadEngAnswersOptions() {
+      const additionalEngOpt = ['vodka', 'chupokabra', 'lazy']
+      let answerEng = []
+      const cards = this.$store.getters['cards/cards']
+      for(let index=0; index<cards.length; ++index){
+        answerEng.push(cards[index].eng)
+      }
+      if(answerEng.length < 5) {
+        answerEng = [answerEng, ...additionalEngOpt]
+      }
+      console.log("QWERTY" + answerEng)
+      return answerEng
+    },
     generateQuestion() {
       const card = this.examSet.pop()
-      console.log('карта'  + card.id)
-      // const firstNumber = this.generateRandomNumber(1, 100);
-      // const secondNumber = this.generateRandomNumber(1, 100);
+      let variant = []
       const modeNumber = this.generateRandomNumber(1, 2);
-      const variant = ['вишня', 'слон', 'гвоздь', 'стул']
+      if (modeNumber === 2){
+        variant = this.loadRuAnswersOptions()
+      }else variant = this.loadEngAnswersOptions()
       let correctAnswer = '';
 
       switch (modeNumber) {
         case MODE_RU:
           correctAnswer = card.eng;
-
           this.question = `What's ${card.ru}?`;
           break;
         case MODE_ENG:
@@ -66,13 +92,13 @@ export default{
           this.question = 'Oops, an Error occurred :/';
       }
 
-      this.btnData[0].answer = this.generateRandomAnswer(variant);
+      this.btnData[0].answer = this.generateRandomAnswer(variant, correctAnswer);
       this.btnData[0].correct = false;
-      this.btnData[1].answer = this.generateRandomAnswer(variant);
+      this.btnData[1].answer = this.generateRandomAnswer(variant, correctAnswer);
       this.btnData[1].correct = false;
-      this.btnData[2].answer = this.generateRandomAnswer(variant);
+      this.btnData[2].answer = this.generateRandomAnswer(variant, correctAnswer);
       this.btnData[2].correct = false;
-      this.btnData[3].answer = this.generateRandomAnswer(variant);
+      this.btnData[3].answer = this.generateRandomAnswer(variant, correctAnswer);
       this.btnData[3].correct = false;
 
       const correctButton = this.generateRandomNumber(0, 3);
@@ -87,19 +113,26 @@ export default{
       }
       return rndNumber;
     },
-    generateRandomAnswer(options) {
+    generateRandomAnswer(options, except) {
       let optionAnswer = ''
       const index = this.generateRandomNumber(1, options.length - 1)
       optionAnswer = options[index]
+      if (optionAnswer === except) {
+        return this.generateRandomNumber(options, except);
+      }
       console.log(optionAnswer)
       return optionAnswer
     },
     onAnswer(isCorrect) {
+      this.rightAnswersCounter ++
+      console.log('Counter' + this.rightAnswersCounter)
       this.$emit('answered', isCorrect);
     }
   },
   created() {
     this.generateQuestion();
+    // this.loadEngAnswersOptions();
+    // this.loadRuAnswersOptions();
   }
 }
 </script>

@@ -41,9 +41,10 @@ export default {
         const responseData = await response.json()
         const id = responseData.name
 
-        // if (!response.ok) {
-        //    console.log(responseData.name)
-        // }
+        if(!response.ok) {
+            const error = new Error(responseData.message || 'Не удалось загрузить!');
+            throw error
+        }
 
         context.commit('addSet', {
             ...setData,
@@ -78,23 +79,15 @@ export default {
 
         context.commit('addToSet', setData);
     },
-    addUser(context, data) {
-        const userData = {
-            id: context.rootGetters.userId,
-            login: data.login,
-            email: data.email,
-            password: data.password
-        }
-        context.commit('addUser', userData)
-    },
     async loadSets(context) {
         const userId = context.rootGetters.userId
         const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/sets.json`)
         const responseData = await response.json();
 
-        // if(!response.ok) {
-        //
-        // }
+        if(!response.ok) {
+            const error = new Error(responseData.message || 'Не удалось загрузить!');
+            throw error
+        }
 
         const sets = [];
         console.log(sets)
@@ -115,9 +108,10 @@ export default {
         const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/cards.json`)
         const responseData = await response.json();
 
-        // if(!response.ok) {
-        //
-        // }
+        if(!response.ok) {
+            const error = new Error(responseData.message || 'Не удалось загрузить!');
+            throw error
+        }
 
         const cards = [];
 

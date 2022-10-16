@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import SetsList from "@/pages/SetsList";
 import CardsList from "@/pages/CardsList";
-import AddUser from "@/pages/AddUser";
+import UserAuth from "@/components/auth/UserAuth";
 import NotFound from "@/pages/NotFound";
 import CardFooter from "@/pages/CardFooter";
 import SetFooter from "@/pages/SetsFooter";
@@ -23,7 +23,7 @@ const router = createRouter({
         { path: '/cards', components: { default: CardsList, footer: CardFooter } },
         { path: '/cards/details/:id', component: CardDetails, props: true },
         { path: '/cards/details/:id/edit', component: CardEdit, props: true },
-        { path: '/login', component: AddUser },
+        { path: '/auth', component: UserAuth },
         { path: '/:notFound(.*)', component: NotFound }
     ],
     linkActiveClass: 'active',

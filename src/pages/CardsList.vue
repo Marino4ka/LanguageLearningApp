@@ -1,4 +1,7 @@
 <template>
+  <base-dialog :show="!!error" title="An error occurred!" @close="handleError">
+    <p>{{ error }}</p>
+  </base-dialog>
   <section>
     <card-filter @change-filter="setFilters"></card-filter>
   </section>
@@ -19,14 +22,17 @@
 <script>
 import CardItem from '../components/cards/CardItem.vue';
 import CardFilter from "@/components/cards/CardFilter";
+import BaseDialog from "@/components/ui/BaseDialog";
 
 export default {
   components: {
+    BaseDialog,
     CardItem,
     CardFilter
   },
   data() {
     return {
+      error: null,
       activeFilters: {
         learn: true,
         done: true,
@@ -61,8 +67,15 @@ export default {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
     },
-    loadCards() {
-      this.$store.dispatch('cards/loadCards')
+    async loadCards() {
+      try{
+        await this.$store.dispatch('cards/loadCards')
+      } catch(error) {
+        this.error = error.message || 'Что то пошло не так!'
+      }
+    },
+    handleError() {
+      this.error = null;
     }
   }
 };

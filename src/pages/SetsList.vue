@@ -1,4 +1,7 @@
 <template>
+  <base-dialog :show="!!error" title="An error occurred!" @close="handleError">
+    <p>{{ error }}</p>
+  </base-dialog>
   <section>
     <base-card>
       <header>
@@ -25,6 +28,11 @@ export default {
     SetsItem,
     BaseCard
   },
+  data() {
+    return {
+      error: null,
+    }
+  },
   computed: {
     userSets() {
       return this.$store.getters['cards/sets']
@@ -39,7 +47,9 @@ export default {
   methods: {
     loadSets() {
       this.$store.dispatch('cards/loadSets')
-      // console.log()
+    },
+    handleError() {
+      this.error = null;
     }
   }
 }
