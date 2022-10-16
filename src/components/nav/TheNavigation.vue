@@ -14,7 +14,10 @@
         <li>
           <router-link to="/learn">Учить</router-link>
         </li>
-        <li>
+        <li v-if="isLoggedIn">
+          <base-button @click="logout">Выйти</base-button>
+        </li>
+        <li v-else-if="!isLoggedIn">
           <router-link to="/auth">Авторизоваться</router-link>
         </li>
       </ul>
@@ -22,6 +25,20 @@
   </header>
 </template>
 
+<script>
+export default {
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuthenticated;
+    }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
+    }
+  }
+}
+</script>
 
 <style scoped>
 header {

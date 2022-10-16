@@ -1,37 +1,44 @@
 <template>
-  <base-card>
-    <form @submit.prevent="submitForm">
-      <div class="form-control">
-        <label for="email">e-mail</label>
-        <input type="email" id="email" v-model.trim="email"/>
-      </div>
-      <div class="form-control">
-        <label for="password">Пароль</label>
-        <input type="password" id="password" v-model.trim="password"/>
-      </div>
-      <div>
-        <p
-            v-if="!formIsValid"
-        >Пожалуйста введите email и пароль (пароль должен включать не менее 6 символов)</p>
-        <base-button>{{ submitButtonCaption }}</base-button>
-        <base-button type="button" mode="flat" @click="switchAuthMode">{{ switchModeButtonCaption }}</base-button>
-      </div>
-    </form>
-  </base-card>
+  <div>
+    <base-dialog :show="!!error" title="Что-то пошло не так" @close="handleError">
+      <p>{{ error }}</p>
+    </base-dialog>
+    <base-card>
+      <form @submit.prevent="submitForm">
+        <div class="form-control">
+          <label for="email">e-mail</label>
+          <input type="email" id="email" v-model.trim="email"/>
+        </div>
+        <div class="form-control">
+          <label for="password">Пароль</label>
+          <input type="password" id="password" v-model.trim="password"/>
+        </div>
+        <div>
+          <p
+              v-if="!formIsValid"
+          >Пожалуйста введите email и пароль (пароль должен включать не менее 6 символов)</p>
+          <base-button>{{ submitButtonCaption }}</base-button>
+          <base-button type="button" mode="flat" @click="switchAuthMode">{{ switchModeButtonCaption }}</base-button>
+        </div>
+      </form>
+    </base-card>
+  </div>
 </template>
 
 <script>
 import BaseButton from "@/components/ui/BaseButton";
 import BaseCard from "@/components/ui/BaseCard";
+import BaseDialog from "@/components/ui/BaseDialog";
 
 export default {
-  components: {BaseCard, BaseButton},
+  components: {BaseDialog, BaseCard, BaseButton},
   data() {
     return {
       email: '',
       password: '',
       formIsValid: true,
-      mode: 'login'
+      mode: 'login',
+      error: null
     }
   },
   computed: {
@@ -51,7 +58,7 @@ export default {
     }
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       this.formIsValid = true;
       if (
           this.email === '' ||
@@ -67,13 +74,16 @@ export default {
         password: this.password
       }
 
-      if (this.mode === 'login') {
-       // send http request
-      } else {
-        this.$store.dispatch('signup', formData)
+      try{
+        if (this.mode === 'login') {
+          await this.$store.dispatch('login', formData)
+        } else {
+          await this.$store.dispatch('signup', formData)
+        }
+      } catch(err) {
+        this.error = err.message || 'Неудалось зарегестрироваться, попробуйте позднее!'
       }
 
-      this.$router.replace('/sets')
     },
     switchAuthMode() {
       if(this.mode === 'login') {
@@ -81,6 +91,9 @@ export default {
       } else {
         this.mode = 'login';
       }
+    },
+    handleError() {
+      this.error = null
     }
   }
 }

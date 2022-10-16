@@ -1,5 +1,6 @@
 export default {
     async addCard(context, payload) {
+        const token = context.rootGetters.token
         const userId = context.rootGetters.userId
         const CardData = {
             ru: payload.ru,
@@ -8,7 +9,7 @@ export default {
             sets: payload.sets
         }
 
-        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/cards.json`, {
+        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/cards.json?auth=` + token, {
             method: 'POST',
             body: JSON.stringify(CardData)
         });
@@ -28,12 +29,13 @@ export default {
         })
     },
     async addSet(context, payload) {
+        const token = context.rootGetters.token
         const userId = context.rootGetters.userId
         const setData = {
             name: payload.name
         }
 
-        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/sets.json`, {
+        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/sets.json?auth=` + token, {
             method: 'POST',
             body: JSON.stringify(setData)
         });
@@ -52,11 +54,10 @@ export default {
         })
     },
     async addToSet(context, payload) {
+        const token = context.rootGetters.token
         const cardId = payload.id
         const setsId = payload.cardData.sets
         const userId = payload.userId
-        console.log('addToSet' + cardId)
-        console.log('addToSet' + setsId)
         const sets = context.getters.sets
         const setData = []
         setData.push(sets)
@@ -69,7 +70,7 @@ export default {
                 else return
             }
         })
-        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/sets.json`, {
+        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/sets.json?auth=` + token, {
             method: 'POST',
             body: JSON.stringify(setData)
         });
@@ -81,7 +82,8 @@ export default {
     },
     async loadSets(context) {
         const userId = context.rootGetters.userId
-        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/sets.json`)
+        const token = context.rootGetters.token
+        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/sets.json?auth=` + token)
         const responseData = await response.json();
 
         if(!response.ok) {
@@ -105,7 +107,8 @@ export default {
     },
     async loadCards(context) {
         const userId = context.rootGetters.userId
-        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/cards.json`)
+        const token = context.rootGetters.token
+        const response = await fetch(`https://diplom-lang-app-vue-default-rtdb.firebaseio.com/users/${userId}/cards.json?auth=` + token)
         const responseData = await response.json();
 
         if(!response.ok) {
