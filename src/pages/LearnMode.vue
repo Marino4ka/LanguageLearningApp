@@ -30,8 +30,8 @@ export default {
     return {
       mode: 'app-question',
       setId: this.id,
-      cards: this.$store.getters['cards/cards'],
-      sets: this.$store.getters['cards/sets']
+      // cards: this.$store.getters['cards/cards'],
+      // sets: this.$store.getters['cards/sets']
     }
   },
   computed: {
@@ -46,8 +46,14 @@ export default {
     }
   },
   methods: {
+    loadSets() {
+      this.$store.dispatch('cards/loadSets')
+    },
+    loadCards() {
+      this.$store.dispatch('cards/loadCards')
+    },
     loadSelectedSet() {
-      this.$store.dispatch('cards/loadSelectedSet', { cards: this.cards, id: this.setId })
+      this.$store.dispatch('cards/loadSelectedSet', { id: this.setId })
     },
     answered(isCorrect) {
       if (isCorrect) {
@@ -65,6 +71,8 @@ export default {
     appAnswer: Answer
   },
   created() {
+    this.loadSets()
+    this.loadCards()
     this.loadSelectedSet()
   }
 }

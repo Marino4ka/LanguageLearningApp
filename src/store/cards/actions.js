@@ -100,7 +100,7 @@ export default {
             }
             sets.push(set)
         }
-
+        console.log(sets)
         context.commit('setSets', sets)
 
     },
@@ -127,18 +127,21 @@ export default {
             }
             cards.push(card)
         }
-
+        console.log(cards)
         context.commit('setCards', cards)
 
     },
     loadSelectedSet(context, payload) {
-        const  cards = payload.cards
+        const  cards = context.getters.cards
+        console.log('actions/loadSelectedSet' + cards[0].id)
         const id = payload.id
         let cardsData = []
-        cards.forEach((cardId, index) => {
-            for(index=0; index<cards.length; ++index){
-                cardId.sets.find(element => element === id)
-                cardsData.push(cardId)
+        cards.forEach((card, index) => {
+            console.log(card.id + 'cardId')
+            for(index=0; index<cards.length-1 ; ++index){
+                console.log(card.sets + "(((((())))))")
+                card.sets.find(element => element === id)
+                cardsData.push(card)
                 return cardsData
             }
         })

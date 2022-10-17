@@ -43,10 +43,14 @@ export default {
   },
   created() {
     this.loadSets()
+    this.loadCards()
   },
   methods: {
     loadSets() {
       this.$store.dispatch('cards/loadSets')
+    },
+    loadCards() {
+      this.$store.dispatch('cards/loadCards')
     },
     handleError() {
       this.error = null;
