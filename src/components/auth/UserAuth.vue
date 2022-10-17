@@ -80,6 +80,7 @@ export default {
         } else {
           await this.$store.dispatch('signup', formData)
         }
+        this.$router.replace('/sets')
       } catch(err) {
         this.error = err.message || 'Неудалось зарегестрироваться, попробуйте позднее!'
       }

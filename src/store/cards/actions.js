@@ -92,7 +92,6 @@ export default {
         }
 
         const sets = [];
-        console.log(sets)
 
         for (const key in responseData) {
             const set = {
